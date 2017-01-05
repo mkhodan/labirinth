@@ -1,2 +1,2 @@
 #labirinth
-[Labirinth Game]:https://mkhodan.github.io/labirinth/index.html
+[Labirinth Game](https://mkhodan.github.io/labirinth/index.html)
