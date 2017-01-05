@@ -1,0 +1,146 @@
+*{
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+body{
+	background-color: #FBCFB4;
+}
+.wrapper{
+	width: 900px;
+	margin: auto;
+
+}
+section{
+	background-color: #9B7A61;
+	padding: 15px;
+	box-shadow: 0px 0px 4px 1px black;
+	border-radius: 2px;
+}
+ul{
+	display: block;
+	margin: auto;
+	width: 900px;
+}
+ul>li{
+	display: inline-block;
+	text-decoration: none;
+	margin: 10px;
+}
+ul>li>a{
+	font-size: 23px;
+	display: inline-block;
+	margin: 15px auto;
+	border: 1px solid #665E43;
+	border-radius: 3px;
+	padding: 5px;
+	width: 155px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #B69657;
+	color: black;
+}
+ul>li>a:hover{
+	font-weight: bold;
+	box-shadow: 0px 1px 0px 2px #665E43 ;
+}
+
+h1,h2,h3{
+	text-align: center;
+	margin: 10px;
+}
+h1{
+	font-size: 50px;
+}
+h2{
+	font-size: 40px;
+}
+h3{
+	font-size: 30px;
+}
+p{
+	font-size: 20px;
+
+}
+hr{
+	border-top: 1px solid #523918;
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	margin: 25px;
+}
+article>img{
+	background-color: #E8E8E8;
+	float: left;
+	margin: 10px;
+	width: 400px;
+	border: 2px solid black;
+	border-radius: 3px;
+	padding: 3px;
+}
+.right-align{
+	float: right;
+}
+article{
+	width: 700px;
+	margin: auto;
+}
+article:after{
+	clear: both;
+	content: "";
+	display: table;
+}
+footer{
+	text-align: center;
+	margin: 20px;
+}
+.end-button{
+	display: block;
+	margin: 15px auto;
+	border: 1px solid #665E43;
+	border-radius: 3px;
+	padding: 10px;
+	width: 200px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #B69657;
+	color: black;
+}
+.end-button:hover{
+	font-weight: bold;
+	box-shadow: 0px 1px 0px 2px #665E43 ;
+}
+.play-button{
+	display: inline-block;
+	margin: 15px auto;
+	border: 1px solid #665E43;
+	border-radius: 3px;
+	padding: 5px;
+	width: 280px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #B69657;
+	color: black;
+}
+.small{
+	width: 150px;
+}
+.play-button:hover{
+	font-weight: bold;
+	box-shadow: 0px 1px 0px 2px #665E43 ;
+	cursor: pointer;
+}
+nav{
+	border-bottom: 1px solid #665E43;
+	/*box-shadow: 0px 0px 3px 0px black;*/
+}
+dt{
+	font-weight: bold;
+}
+dd{
+	text-indent: 15px;
+}
+.blog-date{
+	font-size: 14px;
+}
