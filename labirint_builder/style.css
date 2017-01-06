@@ -34,15 +34,28 @@
 	clear: both;
 }
 .menu>div{
-	background-color: #71797B;
+	background-color: #96A266;
+	border: 1px solid #813D1C;
+	border-radius: 3px;
 	height: 25px;
-	width: 200px;
+	width: 266px;
 	margin: 10px;
-	padding: 3px 5px;
+	padding: 0px 5px;
+	display: inline-block;
+	text-align: center;
+}
+.menu>input{
+	border: 1px solid #813D1C;
+	border-radius: 3px;
+	height: 25px;
+	width: 266px;
+	margin: 10px;
+	padding: 0px 5px;
 	display: inline-block;
 }
 .menu>div:hover{
 	cursor: pointer;
+	box-shadow: 0px 0px 1px 1px #813D1C;
 }
 .start{
 	background-color: #03D343;
@@ -60,4 +73,3 @@
 h2{
 	text-align: center;
 }
-
