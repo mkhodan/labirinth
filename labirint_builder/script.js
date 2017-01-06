@@ -90,12 +90,38 @@ var f = function(){
 		for(let j=0; j<size; j++)
 		{
 			block[i][j].onclick = function(){
-				if((i!==0)||(i!==size-1)){
-					if((j!==0)||(j!==size-1)){
-						if((selectedClass==="start") && (hasStart)) return;
-						if((selectedClass==="finish") && (hasFinish)) return;
-						if(selectedClass==="start") hasStart=true;
-						if(selectedClass==="finish") hasFinish=true;
+				if((i!==0)&&(i!==size-1)){
+					if((j!==0)&&(j!==size-1)){
+						if(selectedClass==="start") {
+							if(!hasStart){
+								startPositionX = i;
+								startPositionY = j;
+								hasStart=true;
+							}
+							else{
+								if(block[startPositionX][startPositionY].className.includes(" start")){
+									let str =  block[startPositionX][startPositionY].className;
+									block[startPositionX][startPositionY].className=str.replace(" start","");
+									startPositionX = i;
+									startPositionY = j;
+								}
+							}
+						}
+						if(selectedClass==="finish") {
+							if(!hasFinish){
+								finishPositionX = i;
+								finishPositionY = j;
+								hasFinish=true;
+							}
+							else{
+								if(block[finishPositionX][finishPositionY].className.includes(" finish")){
+									let str =  block[finishPositionX][finishPositionY].className;
+									block[finishPositionX][finishPositionY].className=str.replace(" finish","");
+									finishPositionX = i;
+									finishPositionY = j;
+								}
+							}
+						}
 						block[i][j].className = "f-block " + selectedClass;
 						
 					}
