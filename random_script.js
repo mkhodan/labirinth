@@ -105,6 +105,8 @@ var f = function(){
 }
 document.addEventListener('DOMContentLoaded',f, false);
 
+var restart = document.getElementById("restart");
+restart.onclick = f;
 
 document.body.onkeydown = function(event){
 	if(noMoreMoves) return;
