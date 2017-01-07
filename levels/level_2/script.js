@@ -1,3 +1,13 @@
+var crosser = function(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y,Point_4_X,Point_4_Y){
+	var res = (((Point_3_X-Point_1_X)*(Point_2_Y-Point_1_Y) - (Point_3_Y-Point_1_Y)*(Point_2_X-Point_1_X)) * 
+             ((Point_4_X-Point_1_X)*(Point_2_Y-Point_1_Y) - (Point_4_Y-Point_1_Y)*(Point_2_X-Point_1_X)) <= 0) 
+            && 
+            (((Point_1_X-Point_3_X)*(Point_4_Y-Point_3_Y) - (Point_1_Y-Point_3_Y)*(Point_4_X-Point_3_X)) * 
+             ((Point_2_X-Point_3_X)*(Point_4_Y-Point_3_Y) - (Point_2_Y-Point_3_Y)*(Point_4_X-Point_3_X)) <= 0) 
+	
+	return res;
+	}
+
 var field = document.getElementById("field");
 var size = 20;
 
@@ -103,7 +113,7 @@ var mainFunc = function() {
 	{
 		for(let j=0; j<size; j++)
 		{
-			if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) < vision) 
+			if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) < 2) 
 			{
 				if(block[i][j].className.includes(" darkness")){
 					let str =  block[i][j].className;
@@ -171,16 +181,135 @@ document.body.onkeydown = function(event){
 	}
 	else return;
 	movesCounter++;
-	for(let i=0; i<size; i++)
+		for(let i=0; i<size; i++)
 	{
 		for(let j=0; j<size; j++)
 		{
 			if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) < vision) 
 			{
-				if(block[i][j].className.includes(" darkness")){
-					let str =  block[i][j].className;
-					block[i][j].className=str.replace(" darkness","");
+
+				var playerX_coord = playerX*20+10;
+				var playerY_coord = playerY*20+10;
+
+				var isCrossing = false;
+
+				var blockListX = [];
+				var blockListY = [];
+				var crossBlockListX = [];
+				var crossBlockListY = [];
+				
+				var blokCount = 0;
+				var crossBlockCount = 0;
+
+				var ceepBright = false;
+				
+				if((i<=playerX)&&(j<=playerY)){
+					for(let n = i; n <= playerX; n++){
+						for(let k = j; k <= playerY; k++){
+							blockListX[blokCount] = n;
+							blockListY[blokCount] = k;
+							blokCount++;
+						}
+					}
+				}else if((i<=playerX)&&(j>=playerY)){
+					for(let n = i; n <= playerX; n++){
+						for(let k = playerY; k <= j; k++){
+							blockListX[blokCount] = n;
+							blockListY[blokCount] = k;
+							blokCount++;
+						}
+					}
 				}
+				else if((i>=playerX)&&(j<=playerY)){
+					for(let n = playerX; n <= i; n++){
+						for(let k = j; k <= playerY; k++){
+							blockListX[blokCount] = n;
+							blockListY[blokCount] = k;
+							blokCount++;
+						}
+					}
+				}
+				else if((i>=playerX)&&(j>=playerY)){
+					for(let n = playerX; n <= i; n++){
+						for(let k = playerY; k <= j; k++){
+							blockListX[blokCount] = n;
+							blockListY[blokCount] = k;
+							blokCount++;
+						}
+					}
+				}
+				for(let k = 0; k < blokCount; k++)
+				{
+					if((i<=playerX)&&(j<=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20,(j)*20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20,(j)*20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i<=playerX)&&(j>=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20,(j)*20+20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20,(j)*20+20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i>=playerX)&&(j<=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i>=playerX)&&(j>=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20+20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20+20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+				}
+				for(let k = 0; k < crossBlockCount; k++)
+				{
+					if(
+						block[crossBlockListX[k]][crossBlockListY[k]].className.includes(" wall")){
+						ceepBright = true;
+						break;
+					}
+				}
+
+				if(!ceepBright){
+					if(block[i][j].className.includes(" darkness")){
+						let str =  block[i][j].className;
+						block[i][j].className=str.replace(" darkness","");
+					}
+				}
+				else if(!block[i][j].className.includes(" darkness")){
+					block[i][j].className+=" darkness";
+				}
+				if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) <2){
+					if(block[i][j].className.includes(" darkness")){
+						let str =  block[i][j].className;
+						block[i][j].className=str.replace(" darkness","");
+					}
+				} 
+				// for(let k = 0; k < crossBlockCount; k++)
+				// {
+				// 	var crs2X = crossBlockListX.reverse();
+				// 	var crs2Y = crossBlockListX.reverse();
+				// 	if(block[crs2X[k]][crs2Y[k]].className.includes(" wall")){
+				// 		if(block[crs2X[k]][crs2Y[k]].className.includes(" darkness")){
+				// 			let str =  block[crs2X[k]][crs2Y[k]].className;
+				// 			block[crs2X[k]][crs2Y[k]].className=str.replace(" darkness","");
+				// 		}
+				// 		break;
+				// 	}
+				// }
+
 			}
 			else {
 				if(!block[i][j].className.includes("darkness"))
