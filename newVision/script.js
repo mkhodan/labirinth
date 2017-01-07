@@ -1,41 +1,24 @@
-var area = function(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y){
-	return (Point_2_X - Point_1_X) * (Point_3_Y - Point_1_Y) - (Point_2_Y - Point_1_Y) * (Point_3_X - Point_1_X);
-}
-
-var intersect_1 = function(a,b,c,d){
-	if (a > b)  {
-		let t = a;
-		a = b;
-		b = t;
-	}
-	if (c > d){
-		let t = c;
-		c = d;
-		d = t;
-	}
-	var max1, max2;
-	if(a>c) max1 = a;
-		else max1 = c;
-	if(b>d) max1 = b;
-		else max1 = d;
-	return max1 <= min2;
-}
-var intersect = function(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y,Point_4_X,Point_4_Y){
-	return ((intersect_1(Point_1_X,Point_2_X,Point_3_X,Point_4_X))
-		&& (intersect_1(Point_1_Y,Point_2_Y,Point_3_Y,Point_4_Y))
-		&& (area(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y) * area(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_4_X,Point_4_Y) <= 0)
-		&& (area(Point_3_X,Point_3_Y,Point_4_X,Point_4_Y,Point_1_X,Point_1_Y) * area(Point_3_X,Point_3_Y,Point_4_X,Point_4_Y,Point_2_X,Point_2_Y) <= 0));
-}
-
 var crosser = function(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y,Point_4_X,Point_4_Y){
-	var x,y;
-	x = ((Point_1_X*Point_2_Y-Point_2_X*Point_1_Y)*(Point_4_X-Point_3_X)-(Point_3_X*Point_4_Y-Point_4_X*Point_3_Y)*(Point_2_X-Point_1_X))/((Point_1_Y-Point_2_Y)*(Point_4_X-Point_3_X)-(Point_3_Y-Point_4_Y)*(Point_2_X-Point_1_X));
-	y = ((Point_3_Y-Point_4_Y)*x-(Point_3_X*Point_4_Y-Point_4_X*Point_3_Y))/(Point_4_X-Point_3_X);
-
-	var res = (((Point_1_X<=x)&&(Point_2_X>=x)&&(Point_3_X<=x)&&(Point_4_X >=x))||((Point_1_Y<=y)&&(Point_2_Y>=y)&&(Point_3_Y<=y) &&(Point_4_Y>=y))) 
-	//if((x===0)&&(y===0)) return true;
+	var res = (((Point_3_X-Point_1_X)*(Point_2_Y-Point_1_Y) - (Point_3_Y-Point_1_Y)*(Point_2_X-Point_1_X)) * 
+             ((Point_4_X-Point_1_X)*(Point_2_Y-Point_1_Y) - (Point_4_Y-Point_1_Y)*(Point_2_X-Point_1_X)) <= 0) 
+            && 
+            (((Point_1_X-Point_3_X)*(Point_4_Y-Point_3_Y) - (Point_1_Y-Point_3_Y)*(Point_4_X-Point_3_X)) * 
+             ((Point_2_X-Point_3_X)*(Point_4_Y-Point_3_Y) - (Point_2_Y-Point_3_Y)*(Point_4_X-Point_3_X)) <= 0) 
+	
 	return res;
 	}
+
+
+
+// var crosser = function(Point_1_X,Point_1_Y,Point_2_X,Point_2_Y,Point_3_X,Point_3_Y,Point_4_X,Point_4_Y){
+// 	var x,y;
+// 	x = ((Point_1_X*Point_2_Y-Point_2_X*Point_1_Y)*(Point_4_X-Point_3_X)-(Point_3_X*Point_4_Y-Point_4_X*Point_3_Y)*(Point_2_X-Point_1_X))/((Point_1_Y-Point_2_Y)*(Point_4_X-Point_3_X)-(Point_3_Y-Point_4_Y)*(Point_2_X-Point_1_X));
+// 	y = ((Point_3_Y-Point_4_Y)*x-(Point_3_X*Point_4_Y-Point_4_X*Point_3_Y))/(Point_4_X-Point_3_X);
+
+// 	var res = (((Point_1_X<=x)&&(Point_2_X>=x)&&(Point_3_X<=x)&&(Point_4_X >=x))||((Point_1_Y<=y)&&(Point_2_Y>=y)&&(Point_3_Y<=y) &&(Point_4_Y>=y))) 
+// 	//if((x===0)&&(y===0)) return true;
+// 	return res;
+// 	}
 
 var field = document.getElementById("field");
 var size = 20;
@@ -53,16 +36,15 @@ var startPositionY = 1;
 var finishPositionX = size-2;
 var finishPositionY = size-2;
 
-//var fieldString ="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 s 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1";
-var fieldString ="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 s 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 1 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 1 1 0 1 0 1 0 1 1 1 0 1 0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 0 1 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 0 1 1 0 1 1 0 1 1 1 1 1 0 1 1 1 0 1 1 1 0 1 0 0 1 1 0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 1 0 1 0 1 0 1 0 1 0 1 0 0 0 1 0 1 1 0 1 1 0 1 0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1";
+var fieldString ="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 s 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 1 0 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1";
+//var fieldString ="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 s 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 1 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 1 1 0 1 0 1 0 1 1 1 0 1 0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 0 1 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 0 1 1 0 1 1 0 1 1 1 1 1 0 1 1 1 0 1 1 1 0 1 0 0 1 1 0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 1 0 1 0 1 0 1 0 1 0 1 0 0 0 1 0 1 1 0 1 1 0 1 0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1";
 var restart = document.getElementById("restart");
 var vision = 4;
 
 var vb2 = document.getElementById("vision2");
 var vb3 = document.getElementById("vision3");
 var vb4 = document.getElementById("vision4");
-var coddLoadd = document.getElementById("codd-load");
-var score = document.getElementById("score");
+
 
 var visionSet = function(){
 	if(this.id === "vision2") vision = 2;
@@ -131,8 +113,6 @@ var mainFunc = function() {
 			}
 	block[playerX][playerY].innerHTML = "O!";
 	curPositionClass = "f-block " + "start";
-	movesCounter = 0;
-	//score.innerHTML = "Score: " + movesCounter; 
 	block[startPositionX][startPositionY].className = "f-block " + "start" + " player";
 	block[finishPositionX][finishPositionY].className = "f-block " + "finish";
 	block[startPositionX][startPositionY].innerHTML = "O!";
@@ -143,7 +123,7 @@ var mainFunc = function() {
 	// {
 	// 	for(let j=0; j<size; j++)
 	// 	{
-	// 		if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) < vision) 
+	// 		if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) < 2) 
 	// 		{
 	// 			if(block[i][j].className.includes(" darkness")){
 	// 				let str =  block[i][j].className;
@@ -232,7 +212,7 @@ document.body.onkeydown = function(event){
 
 				var ceepBright = false;
 				
-				if((i<playerX)&&(j<playerY)){
+				if((i<=playerX)&&(j<=playerY)){
 					for(let n = i; n <= playerX; n++){
 						for(let k = j; k <= playerY; k++){
 							blockListX[blokCount] = n;
@@ -240,7 +220,7 @@ document.body.onkeydown = function(event){
 							blokCount++;
 						}
 					}
-				}else if((i<playerX)&&(j>playerY)){
+				}else if((i<=playerX)&&(j>=playerY)){
 					for(let n = i; n <= playerX; n++){
 						for(let k = playerY; k <= j; k++){
 							blockListX[blokCount] = n;
@@ -249,7 +229,7 @@ document.body.onkeydown = function(event){
 						}
 					}
 				}
-				else if((i>playerX)&&(j<playerY)){
+				else if((i>=playerX)&&(j<=playerY)){
 					for(let n = playerX; n <= i; n++){
 						for(let k = j; k <= playerY; k++){
 							blockListX[blokCount] = n;
@@ -258,7 +238,7 @@ document.body.onkeydown = function(event){
 						}
 					}
 				}
-				else if((i>playerX)&&(j>playerY)){
+				else if((i>=playerX)&&(j>=playerY)){
 					for(let n = playerX; n <= i; n++){
 						for(let k = playerY; k <= j; k++){
 							blockListX[blokCount] = n;
@@ -269,11 +249,37 @@ document.body.onkeydown = function(event){
 				}
 				for(let k = 0; k < blokCount; k++)
 				{
-					if(crosser(playerX_coord,playerY_coord,(i)*20+10,(j)*20+10,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
-						crosser(playerX_coord,playerY_coord,(i)*20+10,(j)*20+10,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
-						crossBlockListX[crossBlockCount] = blockListX[k];
-						crossBlockListY[crossBlockCount] = blockListY[k];
-						crossBlockCount++;
+					if((i<=playerX)&&(j<=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20,(j)*20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20,(j)*20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i<=playerX)&&(j>=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20,(j)*20+20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20,(j)*20+20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i>=playerX)&&(j<=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
+					}
+					else if((i>=playerX)&&(j>=playerY)){
+						if(crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20+20,blockListX[k]*20,blockListY[k]*20,(blockListX[k])*20+20,(blockListY[k])*20+20)||
+							crosser(playerX_coord,playerY_coord,(i)*20+20,(j)*20+20,(blockListX[k])*20+20,blockListY[k]*20,blockListX[k]*20,(blockListY[k])*20+20)){
+							crossBlockListX[crossBlockCount] = blockListX[k];
+							crossBlockListY[crossBlockCount] = blockListY[k];
+							crossBlockCount++;
+						}
 					}
 				}
 				for(let k = 0; k < crossBlockCount; k++)
@@ -284,8 +290,6 @@ document.body.onkeydown = function(event){
 						break;
 					}
 				}
-				//(crosser(playerX_coord,playerY_coord,i,j,crossBlockListX[k],crossBlockListY[k],crossBlockListX[k]+1,crossBlockListY[k]+1)||
-						//crosser(playerX_coord,playerY_coord,i,j,crossBlockListX[k]+1,crossBlockListY[k],crossBlockListX[k],crossBlockListY[k]+1))&&
 
 				if(!ceepBright){
 					if(block[i][j].className.includes(" darkness")){
@@ -296,12 +300,24 @@ document.body.onkeydown = function(event){
 				else if(!block[i][j].className.includes(" darkness")){
 					block[i][j].className+=" darkness";
 				}
-				if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) <1){
+				if(Math.floor(Math.sqrt((playerX-i)*(playerX-i)+(playerY-j)*(playerY-j))) <2){
 					if(block[i][j].className.includes(" darkness")){
 						let str =  block[i][j].className;
 						block[i][j].className=str.replace(" darkness","");
 					}
 				} 
+				// for(let k = 0; k < crossBlockCount; k++)
+				// {
+				// 	var crs2X = crossBlockListX.reverse();
+				// 	var crs2Y = crossBlockListX.reverse();
+				// 	if(block[crs2X[k]][crs2Y[k]].className.includes(" wall")){
+				// 		if(block[crs2X[k]][crs2Y[k]].className.includes(" darkness")){
+				// 			let str =  block[crs2X[k]][crs2Y[k]].className;
+				// 			block[crs2X[k]][crs2Y[k]].className=str.replace(" darkness","");
+				// 		}
+				// 		break;
+				// 	}
+				// }
 
 			}
 			else {
